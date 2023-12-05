@@ -1,26 +1,32 @@
 import { useEffect, useState } from "react";
 
-import "./App.css";
+import "./styles/App.css";
+
+import CardsGrid from "./components/CardsGrid.jsx";
+import StartMenu from "./components/StartMenu.jsx";
 
 function App() {
+	const [gameStarted, setGameStarted] = useState(false);
 	const [charList, setCharList] = useState([]);
 
+	const wantedChars = [1,2,3,4,196,180,47,826,242,331]
+
 	useEffect(() => {
-		fetch("https://rickandmortyapi.com/api/character")
+		fetch(`https://rickandmortyapi.com/api/character/${wantedChars.toString()}`)
 			.then((response) => response.json())
 			.then((data) => {
-				setCharList(data.results.slice(0, 5));
+				setCharList(data);
 			})
 			.catch((error) => console.error(error));
 	}, []);
 
 	return (
 		<>
-			<div>
-				{charList.map((char) => (
-					<div>{char.name}</div>
-				))}
-			</div>
+			{gameStarted ? (
+				<CardsGrid setGameStarted={setGameStarted} charList={charList} />
+			) : (
+				<StartMenu setGameStarted={setGameStarted} />
+			)}
 		</>
 	);
 }
