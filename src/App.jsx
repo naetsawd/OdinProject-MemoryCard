@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 
 import "./styles/App.css";
 
-import CardsGrid from "./components/CardsGrid.jsx";
+import CardsGrid from "./components/GameBoard.jsx";
 import StartMenu from "./components/StartMenu.jsx";
 
 function App() {
-	const [gameStarted, setGameStarted] = useState(false);
+	const [gameStarted, setGameStarted] = useState(true);
 	const [charList, setCharList] = useState([]);
 
 	const wantedChars = [1,2,3,4,196,180,47,826,242,331]
