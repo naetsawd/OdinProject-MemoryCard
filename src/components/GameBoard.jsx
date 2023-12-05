@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 
 import "../styles/GameBoard.css";
 
-function CardsGrid({ setGameStarted, charList }) {
+function CardsGrid({ setGameStarted, charList, difficulty }) {
+	charList = charList.slice(0, difficulty);
+
+	const [shuffledChars, setShuffledChars] = useState(shuffle(charList));
 	const [chosenChar, setChosenChar] = useState([]);
 	const [currScore, setCurrScore] = useState(0);
 	const [highScore, setHighScore] = useState(
@@ -13,9 +16,24 @@ function CardsGrid({ setGameStarted, charList }) {
 		setGameStarted(false);
 	};
 
+	function shuffle(array) {
+		const shuffledChars = [...array];
+
+		for (let i = shuffledChars.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[shuffledChars[i], shuffledChars[j]] = [
+				shuffledChars[j],
+				shuffledChars[i],
+			];
+		}
+
+		return shuffledChars;
+	}
+
 	const selectChar = (id) => {
 		setChosenChar([...chosenChar, id]);
 		setCurrScore((prevScore) => prevScore + 1);
+		setShuffledChars(shuffle(charList));
 	};
 
 	useEffect(() => {
@@ -37,7 +55,7 @@ function CardsGrid({ setGameStarted, charList }) {
 		<div className="game-board">
 			<div className="cards-container">
 				<button onClick={endGameBtn}>Main Menu</button>
-				{charList.map((char) => (
+				{shuffledChars.map((char) => (
 					<div key={char.id}>
 						<div>{char.name}</div>
 						<img src={char.image} onClick={() => selectChar(char.id)} />

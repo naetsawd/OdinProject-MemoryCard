@@ -8,8 +8,9 @@ import StartMenu from "./components/StartMenu.jsx";
 function App() {
 	const [gameStarted, setGameStarted] = useState(true);
 	const [charList, setCharList] = useState([]);
+	const [difficulty, setDifficulty] = useState(3);
 
-	const wantedChars = [1,2,3,4,196,180,47,826,242,331]
+	const wantedChars = [1, 2, 3, 4, 196, 180, 47, 826, 242, 331];
 
 	useEffect(() => {
 		fetch(`https://rickandmortyapi.com/api/character/${wantedChars.toString()}`)
@@ -23,9 +24,16 @@ function App() {
 	return (
 		<>
 			{gameStarted ? (
-				<CardsGrid setGameStarted={setGameStarted} charList={charList} />
+				<CardsGrid
+					setGameStarted={setGameStarted}
+					charList={charList}
+					difficulty={difficulty}
+				/>
 			) : (
-				<StartMenu setGameStarted={setGameStarted} />
+				<StartMenu
+					setGameStarted={setGameStarted}
+					setDifficulty={setDifficulty}
+				/>
 			)}
 		</>
 	);
