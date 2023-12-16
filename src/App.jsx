@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 
+import backgroundImage from "./assets/backgroundImage.jpg";
+
 import "./styles/App.css";
 
 import CardsGrid from "./components/GameBoard.jsx";
 import StartMenu from "./components/StartMenu.jsx";
 
 function App() {
-	const [gameStarted, setGameStarted] = useState(true);
+	const [gameStarted, setGameStarted] = useState(false);
 	const [charList, setCharList] = useState([]);
 	const [difficulty, setDifficulty] = useState(3);
 
@@ -23,18 +25,22 @@ function App() {
 
 	return (
 		<>
-			{gameStarted ? (
-				<CardsGrid
-					setGameStarted={setGameStarted}
-					charList={charList}
-					difficulty={difficulty}
-				/>
-			) : (
-				<StartMenu
-					setGameStarted={setGameStarted}
-					setDifficulty={setDifficulty}
-				/>
-			)}
+			<div className="overlay"></div>
+
+			<div className="content">
+				{gameStarted ? (
+					<CardsGrid
+						setGameStarted={setGameStarted}
+						charList={charList}
+						difficulty={difficulty}
+					/>
+				) : (
+					<StartMenu
+						setGameStarted={setGameStarted}
+						setDifficulty={setDifficulty}
+					/>
+				)}
+			</div>
 		</>
 	);
 }

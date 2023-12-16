@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 
 import "../styles/GameBoard.css";
 
+import showTitle from "../assets/showTitle.png";
+import cardFront from "../assets/cardFront.jpg";
+
 function CardsGrid({ setGameStarted, charList, difficulty }) {
 	charList = charList.slice(0, difficulty);
 
@@ -41,6 +44,10 @@ function CardsGrid({ setGameStarted, charList, difficulty }) {
 			console.log("Game Over!");
 			setChosenChar([]);
 			setCurrScore(0);
+		} else if (chosenChar.length === difficulty) {
+			console.log("You Win!");
+			setChosenChar([]);
+			setCurrScore(0);
 		}
 	}, [chosenChar]);
 
@@ -53,18 +60,25 @@ function CardsGrid({ setGameStarted, charList, difficulty }) {
 
 	return (
 		<div className="game-board">
+			<img src={showTitle} className="home-btn" onClick={endGameBtn} />
+
+			<div className="score-board">
+				<div className="curr-score">Score: {currScore.toString()}</div>
+				<div className="high-score">High Score: {highScore.toString()}</div>
+			</div>
+
 			<div className="cards-container">
-				<button onClick={endGameBtn}>Main Menu</button>
 				{shuffledChars.map((char) => (
-					<div key={char.id}>
+					<div
+						className="card"
+						key={char.id}
+						onClick={() => selectChar(char.id)}
+					>
+						<img src={char.image} />
 						<div>{char.name}</div>
-						<img src={char.image} onClick={() => selectChar(char.id)} />
 					</div>
 				))}
 			</div>
-
-			<div className="curr-score">Score: {currScore.toString()}</div>
-			<div className="high-score">High Score: {highScore.toString()}</div>
 		</div>
 	);
 }

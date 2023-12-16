@@ -1,0 +1,40 @@
+.start-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+
+	width: 100%;
+	padding: 5rem;
+}
+
+.show-title {
+	width: 65%;
+}
+
+.game-title {
+	font-size: 4rem;
+	font-family: "Permanent Marker", cursive;
+}
+
+.difficulty-btns-container {
+	display: flex;
+	gap: 1.25rem;
+
+	margin-top: 6rem;
+}
+
+.difficulty-btn {
+	font-size: 1.5rem;
+	font-weight: 600;
+	border: 0px solid;
+	border-radius: 0.5rem;
+	padding: 0.75rem 1rem;
+	transition: all ease 0.3s;
+}
+
+.difficulty-btn:hover {
+	cursor: pointer;
+	box-shadow: 0px 0px 10px 2px rgb(233, 255, 111);
+	transform: scale(1.05);
+}

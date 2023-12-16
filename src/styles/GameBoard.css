@@ -1,6 +1,83 @@
+.game-board {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 7rem 1fr;
+	padding: 1rem;
+}
+
+.home-btn {
+	width: 18rem;
+    transition: transform 0.5s ease;
+}
+
+.home-btn:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.score-board {
+	margin-left: auto;
+}
+
 .cards-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+	align-items: center;
+	gap: 1rem;
+	grid-column: span 2;
+}
+
+.card {
+    position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+    width: 250px;
+    height: 350px;
+	border: 1px solid #ddd;
+	border-radius: 1rem;
+	overflow: hidden;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	padding: 1rem;
+	background-image: url("../assets/cardFront.jpg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	transition: transform 0.3s ease;
+}
+
+.card:hover {
+	transform: scale(1.03);
+	cursor: pointer;
+}
+
+.card::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.1);
+	border-radius: 1rem;
+	z-index: 0;
+}
+
+.card img {
+	border-radius: 1rem;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.card div {
+	position: relative;
+	font-family: "Arial", sans-serif;
+	margin-top: 1rem;
+	z-index: 1;
 }

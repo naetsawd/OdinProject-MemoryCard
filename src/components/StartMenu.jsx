@@ -1,3 +1,5 @@
+import showTitle from "../assets/showTitle.png";
+
 import "../styles/StartMenu.css";
 
 function StartMenu({ setGameStarted, setDifficulty }) {
@@ -8,9 +10,21 @@ function StartMenu({ setGameStarted, setDifficulty }) {
 
 	return (
 		<div className="start-container">
-			<button onClick={() => startGameBtn(3)}>Easy</button>
-			<button onClick={() => startGameBtn(7)}>Medium</button>
-			<button onClick={() => startGameBtn(10)}>Hard</button>
+			<img src={showTitle} className="show-title" />
+
+			<p className="game-title">Memory Card Game</p>
+
+			<div className="difficulty-btns-container">
+				<button className="difficulty-btn" onClick={() => startGameBtn(3)}>
+					Easy
+				</button>
+				<button className="difficulty-btn" onClick={() => startGameBtn(7)}>
+					Medium
+				</button>
+				<button className="difficulty-btn" onClick={() => startGameBtn(10)}>
+					Hard
+				</button>
+			</div>
 		</div>
 	);
 }
