@@ -1,83 +1,144 @@
 .game-board {
+	position: relative;
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: 7rem 1fr;
-	padding: 1rem;
+	padding: 1rem 2rem;
+	width: 100%;
+	height: 100%;
 }
 
-.home-btn {
+.home-btn-title {
 	width: 18rem;
-    transition: transform 0.5s ease;
+	transition: transform 0.5s ease;
 }
 
-.home-btn:hover {
-    transform: scale(1.05);
-    cursor: pointer;
+.home-btn-title:hover {
+	transform: scale(1.05);
+	cursor: pointer;
 }
 
 .score-board {
+	font-size: 1.25rem;
+	padding: 1rem 0rem;
 	margin-left: auto;
 }
 
 .cards-container {
 	display: flex;
-	justify-content: center;
 	flex-wrap: wrap;
-    width: 100%;
-    height: 100%;
-	align-items: center;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: flex-start;
 	gap: 1rem;
 	grid-column: span 2;
 }
 
 .card {
-    position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-    width: 250px;
-    height: 350px;
+	position: relative;
+}
+
+.card-front,
+.card-back {
+	width: 275px;
+	height: 375px;
 	border: 1px solid #ddd;
 	border-radius: 1rem;
 	overflow: hidden;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	padding: 1rem;
-	background-image: url("../assets/cardFront.jpg");
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	transition: transform 0.3s ease;
+	object-fit: cover;
 }
 
-.card:hover {
+.card-front {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem 1rem 0.5rem 1rem;
+	background: url("../assets/cardFront.jpg") center/cover no-repeat;
+	transform: rotateY(90deg);
+	pointer-events: none;
+	transition: transform 0.5s ease;
+}
+
+.flipped .card-front {
+	transform: rotateY(0deg);
+	transition-delay: 0.5s;
+	pointer-events: all;
+}
+
+.card-back {
+	transition: transform 0.3s ease;
+	transition-delay: 0.5s;
+}
+
+.flipped .card-back {
+	transform: rotateY(90deg);
+	transition-delay: 0s;
+}
+
+.card-front:hover {
 	transform: scale(1.03);
+	transition: transform 0.3s ease;
 	cursor: pointer;
 }
 
-.card::before {
+.card-front::before {
 	content: "";
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: rgba(0, 0, 0, 0.1);
+	background: rgba(0, 0, 0, 0.15);
 	border-radius: 1rem;
 	z-index: 0;
 }
 
-.card img {
+.card-front img {
 	border-radius: 1rem;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	z-index: 1;
 }
 
-.card div {
+.card-front p {
 	position: relative;
-	font-family: "Arial", sans-serif;
-	margin-top: 1rem;
+	font-size: 1.25rem;
+	font-family: "Permanent Marker", cursive;
+	margin-top: 0.25rem;
 	z-index: 1;
+}
+
+.winModal {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 200px;
+	height: 200px;
+	background-color: white;
+	z-index: 3;
+}
+
+.loseModal {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 200px;
+	height: 200px;
+	background-color: wheat;
+	z-index: 3;
+}
+
+.modal-overlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+	z-index: 2;
 }

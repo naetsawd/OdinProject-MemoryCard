@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import "../styles/GameBoard.css";
 
 import showTitle from "../assets/showTitle.png";
-import cardFront from "../assets/cardFront.jpg";
+import cardBack from "../assets/cardBack.jpg";
 
 function CardsGrid({ setGameStarted, charList, difficulty }) {
 	charList = charList.slice(0, difficulty);
@@ -14,8 +14,11 @@ function CardsGrid({ setGameStarted, charList, difficulty }) {
 	const [highScore, setHighScore] = useState(
 		localStorage.getItem("highScore") || 0
 	);
+	const [loseModal, setLoseModal] = useState(false);
+	const [winModal, setWinModal] = useState(false);
+	const [flipped, setFlipped] = useState(true);
 
-	const endGameBtn = () => {
+	const goHomeBtn = () => {
 		setGameStarted(false);
 	};
 
@@ -33,9 +36,27 @@ function CardsGrid({ setGameStarted, charList, difficulty }) {
 		return shuffledChars;
 	}
 
+	const flipAll = () => {
+		setFlipped(false);
+		setTimeout(() => {
+			setFlipped(true);
+		}, 1500);
+	};
+
 	const selectChar = (id) => {
+		flipAll();
 		setChosenChar([...chosenChar, id]);
 		setCurrScore((prevScore) => prevScore + 1);
+		setTimeout(() => {
+			setShuffledChars(shuffle(charList));
+		}, 1000);
+	};
+
+	const restartGame = () => {
+		setChosenChar([]);
+		setCurrScore(0);
+		setLoseModal(false);
+		setWinModal(false);
 		setShuffledChars(shuffle(charList));
 	};
 
@@ -44,10 +65,12 @@ function CardsGrid({ setGameStarted, charList, difficulty }) {
 			console.log("Game Over!");
 			setChosenChar([]);
 			setCurrScore(0);
+			setLoseModal(true);
 		} else if (chosenChar.length === difficulty) {
 			console.log("You Win!");
 			setChosenChar([]);
 			setCurrScore(0);
+			setWinModal(true);
 		}
 	}, [chosenChar]);
 
@@ -60,25 +83,52 @@ function CardsGrid({ setGameStarted, charList, difficulty }) {
 
 	return (
 		<div className="game-board">
-			<img src={showTitle} className="home-btn" onClick={endGameBtn} />
+			<img src={showTitle} className="home-btn-title" onClick={goHomeBtn} />
 
 			<div className="score-board">
-				<div className="curr-score">Score: {currScore.toString()}</div>
-				<div className="high-score">High Score: {highScore.toString()}</div>
+				<p className="curr-score">Score: {currScore.toString()}</p>
+				<p className="high-score">High Score: {highScore.toString()}</p>
 			</div>
 
 			<div className="cards-container">
 				{shuffledChars.map((char) => (
-					<div
-						className="card"
-						key={char.id}
-						onClick={() => selectChar(char.id)}
-					>
-						<img src={char.image} />
-						<div>{char.name}</div>
+					<div key={char.id} className={`card ${flipped ? "flipped" : ""}`}>
+						<div
+							className="card-front"
+							onClick={flipped ? () => selectChar(char.id) : null}
+						>
+							<img src={char.image} />
+							<p>{char.name}</p>
+						</div>
+
+						<img className="card-back" src={cardBack}></img>
 					</div>
 				))}
 			</div>
+
+			{(winModal || loseModal) && <div className="modal-overlay"></div>}
+
+			{winModal && (
+				<div className="winModal">
+					<button className="home-btn" onClick={goHomeBtn}>
+						Start Menu
+					</button>
+					<button className="restart-btn" onClick={restartGame}>
+						Restart
+					</button>
+				</div>
+			)}
+
+			{loseModal && (
+				<div className="loseModal">
+					<button className="home-btn" onClick={goHomeBtn}>
+						Start Menu
+					</button>
+					<button className="restart-btn" onClick={restartGame}>
+						Restart
+					</button>
+				</div>
+			)}
 		</div>
 	);
 }
