@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 
-import backgroundImage from "./assets/backgroundImage.jpg";
-
 import "./styles/App.css";
 
-import CardsGrid from "./components/GameBoard.jsx";
+import GameBoard from "./components/GameBoard.jsx";
 import StartMenu from "./components/StartMenu.jsx";
 
 function App() {
@@ -25,11 +23,9 @@ function App() {
 
 	return (
 		<>
-			<div className="overlay"></div>
-
 			<div className="content">
 				{gameStarted ? (
-					<CardsGrid
+					<GameBoard
 						setGameStarted={setGameStarted}
 						charList={charList}
 						difficulty={difficulty}

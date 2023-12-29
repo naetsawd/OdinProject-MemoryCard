@@ -3,17 +3,16 @@ import { useEffect, useState } from "react";
 import "../styles/GameBoard.css";
 
 import showTitle from "../assets/showTitle.png";
-import cardBack from "../assets/cardBack.jpg";
+import winBanner from "../assets/winBanner.jpg";
+import loseBanner from "../assets/loseBanner.jpg";
 
-function CardsGrid({ setGameStarted, charList, difficulty }) {
+function GameBoard({ setGameStarted, charList, difficulty }) {
 	charList = charList.slice(0, difficulty);
 
 	const [shuffledChars, setShuffledChars] = useState(shuffle(charList));
 	const [chosenChar, setChosenChar] = useState([]);
 	const [currScore, setCurrScore] = useState(0);
-	const [highScore, setHighScore] = useState(
-		localStorage.getItem("highScore") || 0
-	);
+	const [highScore, setHighScore] = useState(0);
 	const [loseModal, setLoseModal] = useState(false);
 	const [winModal, setWinModal] = useState(false);
 	const [flipped, setFlipped] = useState(true);
@@ -40,16 +39,19 @@ function CardsGrid({ setGameStarted, charList, difficulty }) {
 		setFlipped(false);
 		setTimeout(() => {
 			setFlipped(true);
-		}, 1500);
+		}, 600);
 	};
 
 	const selectChar = (id) => {
 		flipAll();
+
 		setChosenChar([...chosenChar, id]);
+
 		setCurrScore((prevScore) => prevScore + 1);
+
 		setTimeout(() => {
 			setShuffledChars(shuffle(charList));
-		}, 1000);
+		}, 500);
 	};
 
 	const restartGame = () => {
@@ -62,21 +64,14 @@ function CardsGrid({ setGameStarted, charList, difficulty }) {
 
 	useEffect(() => {
 		if (new Set(chosenChar).size !== chosenChar.length) {
-			console.log("Game Over!");
-			setChosenChar([]);
-			setCurrScore(0);
 			setLoseModal(true);
 		} else if (chosenChar.length === difficulty) {
-			console.log("You Win!");
-			setChosenChar([]);
-			setCurrScore(0);
 			setWinModal(true);
 		}
 	}, [chosenChar]);
 
 	useEffect(() => {
 		if (currScore > highScore) {
-			localStorage.setItem("highScore", currScore);
 			setHighScore(currScore);
 		}
 	}, [currScore]);
@@ -101,36 +96,29 @@ function CardsGrid({ setGameStarted, charList, difficulty }) {
 							<p>{char.name}</p>
 						</div>
 
-						<img className="card-back" src={cardBack}></img>
+						<img className="card-back"></img>
 					</div>
 				))}
 			</div>
 
-			{(winModal || loseModal) && <div className="modal-overlay"></div>}
+			{(winModal || loseModal) && (
+				<div className="modal-container">
+					<div className="modal">
+						<p className="game-outcome">
+							{winModal ? "You Win!" : loseModal ? "Game Over!" : null}
+						</p>
 
-			{winModal && (
-				<div className="winModal">
-					<button className="home-btn" onClick={goHomeBtn}>
-						Start Menu
-					</button>
-					<button className="restart-btn" onClick={restartGame}>
-						Restart
-					</button>
-				</div>
-			)}
+						<div className="modal-btns">
+							<button onClick={goHomeBtn}>Menu</button>
+							<button onClick={restartGame}>Retry</button>
+						</div>
 
-			{loseModal && (
-				<div className="loseModal">
-					<button className="home-btn" onClick={goHomeBtn}>
-						Start Menu
-					</button>
-					<button className="restart-btn" onClick={restartGame}>
-						Restart
-					</button>
+						<img src={winModal ? winBanner : loseModal ? loseBanner : null} />
+					</div>
 				</div>
 			)}
 		</div>
 	);
 }
 
-export default CardsGrid;
+export default GameBoard;
