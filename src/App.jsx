@@ -1,25 +1,32 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery } from "@apollo/client";
 
 import "./styles/App.css";
 
 import GameBoard from "./components/GameBoard.jsx";
 import StartMenu from "./components/StartMenu.jsx";
+import GET_DATA from "./characters.jsx";
 
 function App() {
 	const [gameStarted, setGameStarted] = useState(false);
-	const [charList, setCharList] = useState([]);
-	const [difficulty, setDifficulty] = useState(3);
+	const [difficulty, setDifficulty] = useState(0);
+	
+	const { loading, error, data } = useQuery(GET_DATA);
 
-	const wantedChars = [1, 2, 3, 4, 196, 180, 47, 826, 242, 331];
+	// REST method
+	// const [charList, setCharList] = useState([]);
+	// const wantedChars = [1, 2, 3, 4, 196, 180, 47, 826, 242, 331];
+	// useEffect(() => {
+	// 	fetch(`https://rickandmortyapi.com/api/character/${wantedChars.toString()}`)
+	// 		.then((response) => response.json())
+	// 		.then((data) => {
+	// 			setCharList(data);
+	// 		})
+	// 		.catch((error) => console.error(error));
+	// }, []);
 
-	useEffect(() => {
-		fetch(`https://rickandmortyapi.com/api/character/${wantedChars.toString()}`)
-			.then((response) => response.json())
-			.then((data) => {
-				setCharList(data);
-			})
-			.catch((error) => console.error(error));
-	}, []);
+	if (loading) return <p>Loading...</p>;
+	if (error) return <p>Error: {error.message}</p>;
 
 	return (
 		<>
@@ -27,7 +34,7 @@ function App() {
 				{gameStarted ? (
 					<GameBoard
 						setGameStarted={setGameStarted}
-						charList={charList}
+						charList={data.charactersByIds}
 						difficulty={difficulty}
 					/>
 				) : (
