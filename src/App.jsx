@@ -10,7 +10,7 @@ import GET_DATA from "./characters.jsx";
 function App() {
 	const [gameStarted, setGameStarted] = useState(false);
 	const [difficulty, setDifficulty] = useState(0);
-	
+
 	const { loading, error, data } = useQuery(GET_DATA);
 
 	// REST method
@@ -25,9 +25,6 @@ function App() {
 	// 		.catch((error) => console.error(error));
 	// }, []);
 
-	if (loading) return <p>Loading...</p>;
-	if (error) return <p>Error: {error.message}</p>;
-
 	return (
 		<>
 			<div className="content">
@@ -41,6 +38,8 @@ function App() {
 					<StartMenu
 						setGameStarted={setGameStarted}
 						setDifficulty={setDifficulty}
+						gameLoading={loading}
+						fetchError={error}
 					/>
 				)}
 			</div>

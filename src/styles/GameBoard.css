@@ -106,7 +106,8 @@
 .card-front p {
 	position: relative;
 	font-size: 1.25rem;
-	font-family: "Permanent Marker", cursive;
+	font-family: "Space Grotesk", sans-serif;
+	font-weight: 600;
 	margin-top: 0.25rem;
 	z-index: 1;
 }
@@ -122,22 +123,25 @@
 }
 
 .modal {
-	position: relative;
+	position: fixed;
 	width: 800px;
 	height: 400px;
 	top: 12rem;
 	border-radius: 1rem;
 	box-shadow: 0px 0px 10px 2px rgb(233, 255, 111);
+	text-align: center;
 	overflow: hidden;
 }
 
 .game-outcome {
 	position: absolute;
-	top: 10%;
+	width: 100%;
+	top: 15%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	font-family: "Permanent Marker", cursive;
-	font-size: 4rem;
+	font-family: "Pixelify Sans", sans-serif;
+	font-size: 7rem;
+	font-weight: 600;
 	z-index: 4;
 }
 

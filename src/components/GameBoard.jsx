@@ -2,20 +2,20 @@ import { useEffect, useState } from "react";
 
 import "../styles/GameBoard.css";
 
+import Card from "../components/Card.jsx";
+import Modal from "../components/Modal.jsx";
+
 import showTitle from "../assets/showTitle.png";
-import winBanner from "../assets/winBanner.jpg";
-import loseBanner from "../assets/loseBanner.jpg";
 
 function GameBoard({ setGameStarted, charList, difficulty }) {
 	charList = charList.slice(0, difficulty);
 
 	const [shuffledChars, setShuffledChars] = useState(shuffle(charList));
 	const [chosenChar, setChosenChar] = useState([]);
-	const [currScore, setCurrScore] = useState(0);
+	const [currScore, setCurrScore] = useState(-1);
 	const [highScore, setHighScore] = useState(0);
-	const [loseModal, setLoseModal] = useState(false);
-	const [winModal, setWinModal] = useState(false);
-	const [flipped, setFlipped] = useState(true);
+	const [showModal, setShowModal] = useState([false, "neither"]);
+	const [flipped, setFlipped] = useState(false);
 
 	const goHomeBtn = () => {
 		setGameStarted(false);
@@ -47,8 +47,6 @@ function GameBoard({ setGameStarted, charList, difficulty }) {
 
 		setChosenChar([...chosenChar, id]);
 
-		setCurrScore((prevScore) => prevScore + 1);
-
 		setTimeout(() => {
 			setShuffledChars(shuffle(charList));
 		}, 500);
@@ -56,23 +54,32 @@ function GameBoard({ setGameStarted, charList, difficulty }) {
 
 	const restartGame = () => {
 		setChosenChar([]);
-		setCurrScore(0);
-		setLoseModal(false);
-		setWinModal(false);
+		setCurrScore(-1);
+		setShowModal([false, "neither"]);
 		setShuffledChars(shuffle(charList));
 	};
 
 	useEffect(() => {
+		setTimeout(() => {
+			setFlipped(true);
+		}, 500);
+	}, []);
+
+	useEffect(() => {
+		if (new Set(chosenChar).size == chosenChar.length) {
+			setCurrScore((prevScore) => prevScore + 1);
+		}
+
 		if (new Set(chosenChar).size !== chosenChar.length) {
-			setLoseModal(true);
+			setShowModal([true, "lose"]);
 		} else if (chosenChar.length === difficulty) {
-			setWinModal(true);
+			setShowModal([true, "win"]);
 		}
 	}, [chosenChar]);
 
 	useEffect(() => {
 		if (currScore > highScore) {
-			setHighScore(currScore);
+			setHighScore((prevHighScore) => Math.max(prevHighScore, currScore));
 		}
 	}, [currScore]);
 
@@ -87,35 +94,23 @@ function GameBoard({ setGameStarted, charList, difficulty }) {
 
 			<div className="cards-container">
 				{shuffledChars.map((char) => (
-					<div key={char.id} className={`card ${flipped ? "flipped" : ""}`}>
-						<div
-							className="card-front"
-							onClick={flipped ? () => selectChar(char.id) : null}
-						>
-							<img src={char.image} />
-							<p>{char.name}</p>
-						</div>
-
-						<img className="card-back"></img>
-					</div>
+					<Card
+						key={char.id}
+						id={char.id}
+						image={char.image}
+						name={char.name}
+						flipped={flipped}
+						onClick={flipped ? () => selectChar(char.id) : null}
+					/>
 				))}
 			</div>
 
-			{(winModal || loseModal) && (
-				<div className="modal-container">
-					<div className="modal">
-						<p className="game-outcome">
-							{winModal ? "You Win!" : loseModal ? "Game Over!" : null}
-						</p>
-
-						<div className="modal-btns">
-							<button onClick={goHomeBtn}>Menu</button>
-							<button onClick={restartGame}>Retry</button>
-						</div>
-
-						<img src={winModal ? winBanner : loseModal ? loseBanner : null} />
-					</div>
-				</div>
+			{showModal[0] == true && (
+				<Modal
+					showModal={showModal[1]}
+					goMenu={goHomeBtn}
+					retry={restartGame}
+				/>
 			)}
 		</div>
 	);
