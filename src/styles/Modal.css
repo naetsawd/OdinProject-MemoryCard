@@ -1,0 +1,76 @@
+.modal-container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+	z-index: 2;
+	display: flex;
+	justify-content: center;
+}
+
+.modal {
+	position: fixed;
+	width: 800px;
+	height: 400px;
+	top: 12rem;
+	border-radius: 1rem;
+	box-shadow: 0px 0px 10px 2px rgb(233, 255, 111);
+	text-align: center;
+	overflow: hidden;
+}
+
+.game-outcome {
+	position: absolute;
+	width: 100%;
+	top: 15%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-family: "Pixelify Sans", sans-serif;
+	font-size: 7rem;
+	font-weight: 600;
+	z-index: 4;
+}
+
+.modal-btns {
+	position: absolute;
+	top: 90%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	width: 100%;
+	z-index: 4;
+}
+
+.modal-btns button {
+	font-size: 1.5rem;
+	font-weight: 600;
+	border: 0px solid;
+	border-radius: 0.5rem;
+	padding: 0.75rem 1rem;
+	transition: all ease 0.3s;
+}
+
+.modal-btns button:hover {
+	cursor: pointer;
+	transform: scale(1.05);
+}
+
+.modal img {
+	position: relative;
+	width: 100%;
+	z-index: 3;
+}
+
+.modal::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.25);
+	border-radius: 1rem;
+	z-index: 4;
+}

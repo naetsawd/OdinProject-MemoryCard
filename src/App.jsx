@@ -5,6 +5,7 @@ import "./styles/App.css";
 
 import GameBoard from "./components/GameBoard.jsx";
 import StartMenu from "./components/StartMenu.jsx";
+import Footer from "./components/Footer.jsx";
 import GET_DATA from "./characters.jsx";
 
 function App() {
@@ -43,6 +44,8 @@ function App() {
 					/>
 				)}
 			</div>
+			
+			<Footer />
 		</>
 	);
 }

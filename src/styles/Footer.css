@@ -1,0 +1,18 @@
+.footer {
+	background-color: rgba(0, 0, 0, 0.75);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 2;
+}
+
+.footer-text {
+	color: white;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.gh-logo {
+	width: 2.1rem;
+	height: 2.1rem;
+	margin-right: 0.3rem;
+}

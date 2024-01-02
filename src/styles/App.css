@@ -2,6 +2,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap");
 #root {
+	display: grid;
+	grid-template-rows: 1fr auto;
+	min-height: 100dvh;
 	background-color: rgb(25, 25, 25);
 	color: white;
 	background: url("../assets/backgroundImage.jpg") center/cover no-repeat;
